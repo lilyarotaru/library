@@ -25,28 +25,12 @@ public class BookDAO {
     }
 
     public Book get(int id) {
-        Book bookWithPerson = jdbcTemplate.query("SELECT * FROM book LEFT JOIN person on book.person_id = person.id WHERE book.id=?",
-                new Object[]{id}, rs -> {
-                    Book book1 = null;
-                    while (rs.next()) {
-                        int bookId = rs.getInt("id");
-                        String title = rs.getString("title");
-                        String author = rs.getString("author");
-                        int year = rs.getInt("year_of_release");
-                        String personIdFK = rs.getString("person_id");
-                        if (personIdFK!=null){
-                            int personId = Integer.parseInt(personIdFK);
-                            String name = rs.getString("name");
-                            int yearOfBirth = rs.getInt("year_of_birth");
-                            Person person = new Person(personId, name, yearOfBirth);
-                            book1 = new Book(bookId, title, author, year, person);
-                        } else {
-                            book1 = new Book(bookId, title, author, year, null);
-                        }
-                    }
-                    return book1;
-                });
-        return bookWithPerson;
+        Book book = jdbcTemplate.query("SELECT * FROM book WHERE  id=?",
+                new Object[]{id}, rowMapper).stream().findAny().orElse(null);
+        Person person=jdbcTemplate.query("SELECT person.* from person join book on book.person_id=person.id WHERE book.id=?",
+                new Object[]{id}, PersonDAO.rowMapper).stream().findAny().orElse(null);
+        book.setPerson(person);
+        return book;
     }
 
     public void update(int id, Book book) {

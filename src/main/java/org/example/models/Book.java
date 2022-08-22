@@ -77,14 +77,4 @@ public class Book {
     public String toString() {
         return title+", "+author+", "+ yearOfRelease;
     }
-
-    public String toString(boolean full) {
-        return "Book{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", author='" + author + '\'' +
-                ", yearOfRelease=" + yearOfRelease +
-                ", person=" + person +
-                '}';
-    }
 }

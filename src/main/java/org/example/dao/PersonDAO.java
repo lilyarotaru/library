@@ -16,7 +16,7 @@ import java.util.Optional;
 public class PersonDAO {
 
     private final JdbcTemplate jdbcTemplate;
-    private static final BeanPropertyRowMapper<Person> rowMapper = BeanPropertyRowMapper.newInstance(Person.class);
+    static final BeanPropertyRowMapper<Person> rowMapper = BeanPropertyRowMapper.newInstance(Person.class);
 
     @Autowired
     public PersonDAO(JdbcTemplate jdbcTemplate) {
