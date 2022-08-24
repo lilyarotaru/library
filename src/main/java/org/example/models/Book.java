@@ -1,32 +1,43 @@
 package org.example.models;
 
+import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+@Entity
+@Table(name = "book")
 public class Book {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private int id;
+
+    @Column(name = "title")
     @NotEmpty
     @Size(min = 2, max = 100, message = "Title must be between 2 and 100 chars")
     private String title;
 
+    @Column(name = "author")
     @NotEmpty
     @Size(min = 2, max = 100, message = "Author name must be between 2 and 100 chars")
     private String author;
 
+    @Column(name = "year_of_release")
     @NotNull
     @Min(value = 1000, message = "Year of release must be greater than 1000")
     private int yearOfRelease;
 
+    @ManyToOne
+    @JoinColumn(name = "person_id", referencedColumnName = "id")
     private Person person;
 
     public Book() {
     }
 
-    public Book(int id, String title, String author, int yearOfRelease, Person person) {
-        this.id = id;
+    public Book(String title, String author, int yearOfRelease, Person person) {
         this.title = title;
         this.author = author;
         this.yearOfRelease = yearOfRelease;
@@ -75,6 +86,6 @@ public class Book {
 
     @Override
     public String toString() {
-        return title+", "+author+", "+ yearOfRelease;
+        return title + ", " + author + ", " + yearOfRelease;
     }
 }

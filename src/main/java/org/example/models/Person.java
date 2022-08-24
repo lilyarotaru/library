@@ -1,25 +1,33 @@
 package org.example.models;
 
+import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.util.List;
 
+@Entity
+@Table(name = "person")
 public class Person {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private int id;
 
+    @Column(name = "name")
     @NotEmpty(message = "Name should not be empty")
     @Size(min = 2, max = 30, message = "Name should between 2 and 30 chars")
     private String name;
 
+    @Column(name = "year_of_birth")
     @NotNull
     @Min(value = 1930, message = "Year of birth must be greater than 1930")
     @Max(value = 2022, message = "Year of birth cannot be in future")
     private int yearOfBirth;
 
+    @OneToMany(mappedBy = "person")
     private List<Book> books;
 
-    public Person(int id, String name, int yearOfBirth) {
-        this.id = id;
+    public Person(String name, int yearOfBirth) {
         this.name = name;
         this.yearOfBirth = yearOfBirth;
     }

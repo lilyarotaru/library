@@ -15,7 +15,7 @@
         <a th:text="${book.toString()}">book</a>
     </div>
 </div>
-<div th:if="${person.getBooks()==null}">
+<div th:if="${#lists.isEmpty(person.getBooks())}">
     <a>Человек пока не взял ни одной книги</a>
 </div>
 <hr/>

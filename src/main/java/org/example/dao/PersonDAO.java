@@ -1,61 +1,62 @@
 package org.example.dao;
 
-import org.example.models.Book;
 import org.example.models.Person;
+import org.hibernate.Hibernate;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Component
+@Transactional(readOnly = true)
 public class PersonDAO {
 
-    private final JdbcTemplate jdbcTemplate;
-    static final BeanPropertyRowMapper<Person> rowMapper = BeanPropertyRowMapper.newInstance(Person.class);
+    private final SessionFactory sessionFactory;
 
     @Autowired
-    public PersonDAO(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+    public PersonDAO(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
     }
 
     public List<Person> getAll() {
-        return jdbcTemplate.query("SELECT * FROM person", rowMapper);
-
+        Session session = sessionFactory.getCurrentSession();
+        List<Person> people = session.createQuery("SELECT p FROM Person p", Person.class).getResultList();
+        return people;
     }
 
     public Person get(int id) {
-        Person person = jdbcTemplate.query(
-                        "SELECT * FROM person WHERE id=?", new Object[]{id}, rowMapper)
-                .stream().findAny().orElse(null);
-        List<Book> books = jdbcTemplate.query("SELECT * FROM book WHERE person_id=?", new Object[]{id}, BookDAO.rowMapper);
-        if (!books.isEmpty()) {
-            person.setBooks(books);
-        }
+        Session session = sessionFactory.getCurrentSession();
+        Person person = session.get(Person.class, id);
+        Hibernate.initialize(person.getBooks());
         return person;
     }
 
     public Optional<Person> getByName(String name) {
-        return jdbcTemplate.query(
-                        "SELECT * FROM person WHERE name=?", new Object[]{name}, rowMapper)
-                .stream().findAny();
+        Session session = sessionFactory.getCurrentSession();
+        return session.createQuery("SELECT p from Person p WHERE name=:name")
+                .setParameter("name", name).getResultList().stream().findAny();
     }
 
+    @Transactional
     public void save(Person person) {
-        jdbcTemplate.update("INSERT INTO person (name, year_of_birth) VALUES (?, ?)",
-                person.getName(), person.getYearOfBirth());
+        Session session = sessionFactory.getCurrentSession();
+        session.persist(person);
     }
 
+    @Transactional
     public void update(int id, Person person) {
-        jdbcTemplate.update("UPDATE person SET name=?, year_of_birth=? WHERE id=?",
-                person.getName(), person.getYearOfBirth(), id);
+        Session session = sessionFactory.getCurrentSession();
+        session.merge(person);
     }
 
+    @Transactional
     public void delete(int id) {
-        jdbcTemplate.update("DELETE FROM person WHERE id=?", id);
+        Session session = sessionFactory.getCurrentSession();
+        Person personToRemove = session.get(Person.class, id);
+        session.remove(personToRemove);
     }
 }
