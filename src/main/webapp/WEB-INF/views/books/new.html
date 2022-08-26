@@ -2,21 +2,21 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>New Book</title>
+    <title>Новая книга</title>
 </head>
 <body>
 
 <form th:method="POST" th:action="@{/books}" th:object="${book}">
-    <label for="title">Title:</label>
+    <label for="title">Название:</label>
     <input type="text" th:field="*{title}" id="title"/>
     <div style="color:red" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Title error</div>
     <br/>
-    <label for="author">Author:</label>
+    <label for="author">Автор:</label>
     <input type="text" th:field="*{author}" id="author"/>
     <div style="color:red" th:if="${#fields.hasErrors('author')}" th:errors="*{author}">Author error</div>
     <br/>
 
-    <label for="yearOfRelease">Year of release:</label>
+    <label for="yearOfRelease">Год выпуска:</label>
     <input type="text" th:field="*{yearOfRelease}" id="yearOfRelease"/>
     <div style="color:red" th:if="${#fields.hasErrors('yearOfRelease')}" th:errors="*{yearOfRelease}">Year of release
         error

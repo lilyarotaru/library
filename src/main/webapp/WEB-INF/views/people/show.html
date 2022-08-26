@@ -2,24 +2,24 @@
 <html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Человек</title>
+    <title>Посетитель</title>
 </head>
 <body>
 
 <p th:text="${person.getName()}">VALUE</p>
 <p th:text="${person.getYearOfBirth()}">VALUE</p>
 <hr/>
-<div th:if="${not #lists.isEmpty(person.getBooks())}">
-    <a>Книги</a>
-    <div th:each="book : ${person.getBooks()}">
-        <a th:text="${book.toString()}">book</a>
-    </div>
-</div>
 <div th:if="${#lists.isEmpty(person.getBooks())}">
     <a>Человек пока не взял ни одной книги</a>
 </div>
+<div th:if="${not #lists.isEmpty(person.getBooks())}">
+    <a>Книги:</a>
+    <div th:each="book : ${person.getBooks()}">
+        <a th:style="${book.isOverstay()} ? 'color:red' : 'color:black'"
+                th:text="${book.toString()}">book</a>
+    </div>
+</div>
 <hr/>
-
 <form th:method="GET" th:action="@{/people/{id}/edit(id=${person.getId()})}">
     <input type="submit" value="Редактировать">
 </form>

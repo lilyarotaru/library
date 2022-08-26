@@ -1,10 +1,11 @@
-package org.example.models;
+package org.example.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Date;
 
 @Entity
 @Table(name = "book")
@@ -30,9 +31,16 @@ public class Book {
     @Min(value = 1000, message = "Year of release must be greater than 1000")
     private int yearOfRelease;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "person_id", referencedColumnName = "id")
     private Person person;
+
+    @Column(name = "borrow_date")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date borrowDate;
+
+    @Transient
+    private boolean overstay;
 
     public Book() {
     }
@@ -82,6 +90,18 @@ public class Book {
 
     public void setPerson(Person person) {
         this.person = person;
+    }
+
+    public Date getBorrowDate() {
+        return borrowDate;
+    }
+
+    public void setBorrowDate(Date borrowDate) {
+        this.borrowDate = borrowDate;
+    }
+
+    public boolean isOverstay() {
+        return borrowDate != null && (new Date().getTime() - borrowDate.getTime()) > 10 * 24 * 60 * 60 * 1000;
     }
 
     @Override

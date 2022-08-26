@@ -2,15 +2,15 @@
 <html lang="en" xmlns:th="http://thymeleaf.org" >
 <head>
     <meta charset="UTF-8">
-    <title>Update person</title>
+    <title>Редактировать посетителя</title>
 </head>
 <body>
 <form th:method="PATCH" th:action="@{/people/{id}(id=${person.getId()})}" th:object="${person}">
-    <label for="name">Name:</label>
+    <label for="name">ФИО:</label>
     <input type="text" th:field="*{name}" id="name"/>
     <div style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name error</div>
     <br/>
-    <label for="yearOfBirth">Year of birth:</label>
+    <label for="yearOfBirth">Год рождения:</label>
     <input type="number" th:field="*{yearOfBirth}" id="yearOfBirth"/>
     <div style="color:red"  th:if="${#fields.hasErrors('yearOfBirth')}" th:errors="*{yearOfBirth}">Year of birth error</div>
     <br/>
