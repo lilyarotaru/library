@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -46,8 +47,12 @@ public class BookService {
 
     @Transactional
     public void update(int id, Book book) {
-        book.setId(id);
-        bookRepository.save(book);
+        Optional<Book> oldBook = bookRepository.findById(id);
+        oldBook.ifPresent(value->{
+            value.setTitle(book.getTitle());
+            value.setAuthor(book.getAuthor());
+            value.setYearOfRelease(book.getYearOfRelease());
+        });
     }
 
     @Transactional

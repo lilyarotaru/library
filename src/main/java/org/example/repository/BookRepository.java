@@ -15,6 +15,4 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
 
     @EntityGraph(attributePaths = {"person"}, type = EntityGraph.EntityGraphType.LOAD)
     Optional<Book> findById(int id);
-
-
 }
