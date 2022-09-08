@@ -1,6 +1,6 @@
-package org.example.repository;
+package org.example.library.repository;
 
-import org.example.model.Book;
+import org.example.library.model.Book;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -11,7 +11,7 @@ import java.util.Optional;
 @Repository
 public interface BookRepository extends JpaRepository<Book, Integer> {
     @EntityGraph(attributePaths = {"person"}, type = EntityGraph.EntityGraphType.LOAD)
-    List<Book> findAllByTitleStartingWith(String name);
+    List<Book> findAllByTitleIgnoreCaseStartingWith(String name);
 
     @EntityGraph(attributePaths = {"person"}, type = EntityGraph.EntityGraphType.LOAD)
     Optional<Book> findById(int id);

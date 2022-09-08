@@ -1,8 +1,8 @@
-package org.example.controller;
+package org.example.library.controller;
 
-import org.example.model.Book;
-import org.example.service.BookService;
-import org.example.service.PeopleService;
+import org.example.library.model.Book;
+import org.example.library.service.BookService;
+import org.example.library.service.PeopleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,7 +23,7 @@ public class BookController {
         this.peopleService = peopleService;
     }
 
-    @GetMapping()
+    @GetMapping
     public String getAll(@RequestParam(name = "sort", required = false) boolean sorted,
                          @RequestParam(name = "page", required = false) Integer page,
                          @RequestParam(name = "books_per_page", required = false) Integer booksPerPage,

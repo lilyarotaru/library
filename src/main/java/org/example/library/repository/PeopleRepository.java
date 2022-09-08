@@ -1,6 +1,6 @@
-package org.example.repository;
+package org.example.library.repository;
 
-import org.example.model.Person;
+import org.example.library.model.Person;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

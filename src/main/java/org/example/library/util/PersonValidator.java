@@ -1,7 +1,7 @@
-package org.example.util;
+package org.example.library.util;
 
-import org.example.model.Person;
-import org.example.repository.PeopleRepository;
+import org.example.library.model.Person;
+import org.example.library.repository.PeopleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;

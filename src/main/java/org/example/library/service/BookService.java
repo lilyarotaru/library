@@ -1,9 +1,9 @@
-package org.example.service;
+package org.example.library.service;
 
-import org.example.model.Book;
-import org.example.model.Person;
-import org.example.repository.BookRepository;
-import org.example.repository.PeopleRepository;
+import org.example.library.model.Book;
+import org.example.library.model.Person;
+import org.example.library.repository.BookRepository;
+import org.example.library.repository.PeopleRepository;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -37,7 +37,7 @@ public class BookService {
     }
 
     public List<Book> findAllByTitleStartingWith(String title) {
-        return bookRepository.findAllByTitleStartingWith(title);
+        return bookRepository.findAllByTitleIgnoreCaseStartingWith(title);
     }
 
     @Transactional

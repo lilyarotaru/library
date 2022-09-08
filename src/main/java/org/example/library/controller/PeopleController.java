@@ -1,8 +1,8 @@
-package org.example.controller;
+package org.example.library.controller;
 
-import org.example.model.Person;
-import org.example.service.PeopleService;
-import org.example.util.PersonValidator;
+import org.example.library.model.Person;
+import org.example.library.service.PeopleService;
+import org.example.library.util.PersonValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

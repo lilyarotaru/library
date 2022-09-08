@@ -1,4 +1,4 @@
-package org.example.model;
+package org.example.library.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
